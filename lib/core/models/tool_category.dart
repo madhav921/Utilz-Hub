@@ -167,6 +167,13 @@ final List<ToolCategory> defaultCategories = [
         description: 'Compare two loan options',
         type: ToolType.calculator,
       ),
+      Tool(
+        id: 'depreciation',
+        name: 'Depreciation',
+        icon: Icons.trending_down,
+        description: 'SLM, WDV & DDB depreciation',
+        type: ToolType.calculator,
+      ),
     ],
   ),
 
@@ -211,6 +218,41 @@ final List<ToolCategory> defaultCategories = [
         name: 'Unit Price Compare',
         icon: Icons.compare,
         description: 'Compare price per unit',
+        type: ToolType.calculator,
+      ),
+      Tool(
+        id: 'salary_breakup',
+        name: 'Salary Breakup',
+        icon: Icons.account_box,
+        description: 'CTC → in-hand breakup',
+        type: ToolType.calculator,
+      ),
+      Tool(
+        id: 'tax_estimator',
+        name: 'Tax Estimator',
+        icon: Icons.request_page,
+        description: 'Basic income tax estimate',
+        type: ToolType.calculator,
+      ),
+      Tool(
+        id: 'stamp_duty',
+        name: 'Stamp Duty',
+        icon: Icons.gavel,
+        description: 'Stamp duty & registration',
+        type: ToolType.calculator,
+      ),
+      Tool(
+        id: 'penalty_calculator',
+        name: 'Penalty Calculator',
+        icon: Icons.warning_amber,
+        description: 'Penalty / fine on overdue',
+        type: ToolType.calculator,
+      ),
+      Tool(
+        id: 'doc_size_helper',
+        name: 'Document Helper',
+        icon: Icons.description,
+        description: 'Page count & paper weight',
         type: ToolType.calculator,
       ),
     ],
@@ -258,6 +300,48 @@ final List<ToolCategory> defaultCategories = [
         icon: Icons.functions,
         description: 'Standard ↔ scientific form',
         type: ToolType.converter,
+      ),
+      Tool(
+        id: 'fraction_decimal',
+        name: 'Fraction ↔ Decimal',
+        icon: Icons.pie_chart,
+        description: 'Convert fractions & decimals',
+        type: ToolType.converter,
+      ),
+      Tool(
+        id: 'number_compare',
+        name: 'Number Compare',
+        icon: Icons.swap_horiz,
+        description: 'Compare two numbers (>, <, =)',
+        type: ToolType.calculator,
+      ),
+      Tool(
+        id: 'addition_subtraction',
+        name: 'Add & Subtract',
+        icon: Icons.add_circle_outline,
+        description: 'Simple addition & subtraction',
+        type: ToolType.calculator,
+      ),
+      Tool(
+        id: 'counting_helper',
+        name: 'Counting Helper',
+        icon: Icons.grid_view,
+        description: 'Visual counting 1–100',
+        type: ToolType.calculator,
+      ),
+      Tool(
+        id: 'speed_distance_time',
+        name: 'Speed·Distance·Time',
+        icon: Icons.directions_run,
+        description: 'Speed = Distance ÷ Time',
+        type: ToolType.calculator,
+      ),
+      Tool(
+        id: 'gpa_cgpa',
+        name: 'GPA / CGPA',
+        icon: Icons.school,
+        description: 'GPA calculator & % ↔ GPA',
+        type: ToolType.calculator,
       ),
     ],
   ),
@@ -347,6 +431,13 @@ final List<ToolCategory> defaultCategories = [
         description: 'Bytes, KB, MB, GB, TB',
         type: ToolType.converter,
       ),
+      Tool(
+        id: 'angle_converter',
+        name: 'Angle',
+        icon: Icons.rotate_right,
+        description: 'Degree, radian, gradian',
+        type: ToolType.converter,
+      ),
     ],
   ),
 
@@ -386,6 +477,13 @@ final List<ToolCategory> defaultCategories = [
         description: 'Sphere, cylinder, cone, cube',
         type: ToolType.calculator,
       ),
+      Tool(
+        id: 'slope_calculator',
+        name: 'Slope & Angle',
+        icon: Icons.signal_cellular_alt,
+        description: 'Rise/run, grade, degrees',
+        type: ToolType.calculator,
+      ),
     ],
   ),
 
@@ -417,6 +515,20 @@ final List<ToolCategory> defaultCategories = [
         icon: Icons.timer,
         description: 'Days until a target date',
         type: ToolType.calculator,
+      ),
+      Tool(
+        id: 'time_period',
+        name: 'Time Period',
+        icon: Icons.update,
+        description: 'Days ↔ weeks ↔ months ↔ years',
+        type: ToolType.converter,
+      ),
+      Tool(
+        id: 'timestamp_converter',
+        name: 'Timestamp ↔ Date',
+        icon: Icons.schedule_send,
+        description: 'Unix timestamp converter',
+        type: ToolType.converter,
       ),
     ],
   ),
@@ -463,4 +575,181 @@ final List<ToolCategory> defaultCategories = [
       ),
     ],
   ),
+
+  // ── 9. Health & Body ──────────────────────────────────────
+  const ToolCategory(
+    id: 'health',
+    name: 'Health & Body',
+    icon: Icons.health_and_safety,
+    color: Color(0xFFE11D48),
+    sortOrder: 8,
+    tools: [
+      Tool(
+        id: 'bsa_calculator',
+        name: 'Body Surface Area',
+        icon: Icons.accessibility_new,
+        description: 'BSA for drug dosing',
+        type: ToolType.calculator,
+      ),
+      Tool(
+        id: 'dosage_calculator',
+        name: 'Dosage Calculator',
+        icon: Icons.medication,
+        description: 'Drug dose by body weight',
+        type: ToolType.calculator,
+      ),
+      Tool(
+        id: 'heart_rate_zones',
+        name: 'Heart Rate Zones',
+        icon: Icons.monitor_heart,
+        description: 'Training heart rate zones',
+        type: ToolType.calculator,
+      ),
+      Tool(
+        id: 'fluid_intake',
+        name: 'Fluid Intake',
+        icon: Icons.water,
+        description: 'Daily water intake guide',
+        type: ToolType.calculator,
+      ),
+    ],
+  ),
+
+  // ── 10. Engineering ───────────────────────────────────────
+  const ToolCategory(
+    id: 'engineering',
+    name: 'Engineering',
+    icon: Icons.engineering,
+    color: Color(0xFF0891B2),
+    sortOrder: 9,
+    tools: [
+      Tool(
+        id: 'pipe_flow',
+        name: 'Pipe Flow',
+        icon: Icons.plumbing,
+        description: 'Pipe diameter & flow rate',
+        type: ToolType.calculator,
+      ),
+      Tool(
+        id: 'thread_reference',
+        name: 'Thread Sizes',
+        icon: Icons.hardware,
+        description: 'Bolt & screw thread chart',
+        type: ToolType.calculator,
+      ),
+      Tool(
+        id: 'tank_capacity',
+        name: 'Tank Capacity',
+        icon: Icons.propane_tank,
+        description: 'Water tank volume',
+        type: ToolType.calculator,
+      ),
+      Tool(
+        id: 'wood_volume',
+        name: 'Wood Volume',
+        icon: Icons.forest,
+        description: 'Board feet & cubic volume',
+        type: ToolType.calculator,
+      ),
+      Tool(
+        id: 'material_estimator',
+        name: 'Material Estimator',
+        icon: Icons.inventory_2,
+        description: 'Bricks, cement, tiles, paint',
+        type: ToolType.calculator,
+      ),
+      Tool(
+        id: 'wastage_calculator',
+        name: 'Wastage %',
+        icon: Icons.delete_sweep,
+        description: 'Material wastage calculator',
+        type: ToolType.calculator,
+      ),
+      Tool(
+        id: 'load_calculator',
+        name: 'Load Calculator',
+        icon: Icons.fitness_center,
+        description: 'Force, stress from mass',
+        type: ToolType.calculator,
+      ),
+      Tool(
+        id: 'efficiency_calculator',
+        name: 'Efficiency',
+        icon: Icons.speed,
+        description: 'Input vs output efficiency',
+        type: ToolType.calculator,
+      ),
+      Tool(
+        id: 'ohms_law',
+        name: "Ohm's Law",
+        icon: Icons.electrical_services,
+        description: 'V = I × R calculator',
+        type: ToolType.calculator,
+      ),
+      Tool(
+        id: 'wire_gauge',
+        name: 'Wire Gauge (AWG)',
+        icon: Icons.cable,
+        description: 'Wire size & current reference',
+        type: ToolType.calculator,
+      ),
+    ],
+  ),
+
+  // ── 11. Digital Tools ─────────────────────────────────────
+  const ToolCategory(
+    id: 'digital',
+    name: 'Digital Tools',
+    icon: Icons.code,
+    color: Color(0xFF7C3AED),
+    sortOrder: 10,
+    tools: [
+      Tool(
+        id: 'color_converter',
+        name: 'Color Converter',
+        icon: Icons.palette,
+        description: 'HEX ↔ RGB ↔ HSL',
+        type: ToolType.converter,
+      ),
+      Tool(
+        id: 'screen_dpi',
+        name: 'Screen DPI',
+        icon: Icons.screenshot_monitor,
+        description: 'PPI & resolution calculator',
+        type: ToolType.calculator,
+      ),
+      Tool(
+        id: 'file_size_estimator',
+        name: 'File Size',
+        icon: Icons.insert_drive_file,
+        description: 'Image/video/audio size estimate',
+        type: ToolType.calculator,
+      ),
+      Tool(
+        id: 'time_complexity',
+        name: 'Time Complexity',
+        icon: Icons.timer,
+        description: 'Big-O algorithm reference',
+        type: ToolType.calculator,
+      ),
+    ],
+  ),
 ];
+
+// ============================================================
+// HELPER — build a flat lookup of every tool by id.
+// ============================================================
+final Map<String, Tool> allToolsById = {
+  for (final cat in defaultCategories)
+    for (final tool in cat.tools) tool.id: tool,
+};
+
+/// Returns the category that owns a given tool id.
+ToolCategory? categoryForTool(String toolId) {
+  for (final cat in defaultCategories) {
+    for (final tool in cat.tools) {
+      if (tool.id == toolId) return cat;
+    }
+  }
+  return null;
+}

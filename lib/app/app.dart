@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'theme_provider.dart';
-import '../features/home/home_screen.dart';
+import '../features/home/app_shell.dart';
 
 /// Main app widget with theme management.
 class ConverterApp extends StatefulWidget {
@@ -19,9 +19,9 @@ class _ConverterAppState extends State<ConverterApp> {
       animation: _themeProvider,
       builder: (context, child) {
         return MaterialApp(
-          title: 'All-in-One Toolbox',
+          title: 'Utilz Hub',
           theme: _themeProvider.getThemeData(),
-          home: HomeScreen(themeProvider: _themeProvider),
+          home: AppShell(themeProvider: _themeProvider),
           debugShowCheckedModeBanner: false,
         );
       },

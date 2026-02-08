@@ -43,6 +43,52 @@ import '../live/fuel_price_screen.dart';
 // ── Unit converter ───────────────────────────────────────
 import '../converters/converter_screen.dart';
 
+// ── New tool screens (Math / Education) ──────────────────
+import '../calculators/number_compare_screen.dart';
+import '../calculators/counting_helper_screen.dart';
+import '../calculators/addition_subtraction_screen.dart';
+import '../calculators/fraction_decimal_screen.dart';
+import '../calculators/speed_distance_time_screen.dart';
+import '../calculators/gpa_cgpa_screen.dart';
+
+// ── New tool screens (Converters / Time) ─────────────────
+import '../converters/angle_converter_screen.dart';
+import '../calculators/time_period_screen.dart';
+import '../calculators/timestamp_converter_screen.dart';
+
+// ── New tool screens (Finance / Business) ────────────────
+import '../calculators/depreciation_screen.dart';
+import '../calculators/salary_breakup_screen.dart';
+import '../calculators/tax_estimator_screen.dart';
+import '../calculators/stamp_duty_screen.dart';
+import '../calculators/penalty_calculator_screen.dart';
+import '../calculators/doc_size_helper_screen.dart';
+
+// ── New tool screens (Health) ────────────────────────────
+import '../calculators/bsa_calculator_screen.dart';
+import '../calculators/dosage_calculator_screen.dart';
+import '../calculators/heart_rate_zones_screen.dart';
+import '../calculators/fluid_intake_screen.dart';
+
+// ── New tool screens (Engineering) ───────────────────────
+import '../calculators/pipe_flow_screen.dart';
+import '../calculators/thread_reference_screen.dart';
+import '../calculators/tank_capacity_screen.dart';
+import '../calculators/wood_volume_screen.dart';
+import '../calculators/material_estimator_screen.dart';
+import '../calculators/wastage_calculator_screen.dart';
+import '../calculators/load_calculator_screen.dart';
+import '../calculators/efficiency_calculator_screen.dart';
+import '../calculators/ohms_law_screen.dart';
+import '../calculators/wire_gauge_screen.dart';
+import '../calculators/slope_calculator_screen.dart';
+
+// ── New tool screens (Digital) ───────────────────────────
+import '../calculators/color_converter_screen.dart';
+import '../calculators/screen_dpi_screen.dart';
+import '../calculators/file_size_estimator_screen.dart';
+import '../calculators/time_complexity_screen.dart';
+
 /// Central router that maps [Tool.id] to its screen widget.
 ///
 /// Keeps all navigation in one place for easy debugging.
@@ -151,6 +197,88 @@ class ToolRouter {
         return SilverPriceScreen(categoryColor: color);
       case 'fuel_price_live':
         return FuelPriceScreen(categoryColor: color);
+
+      // ── Math / Education (new) ──────────────────────────
+      case 'fraction_decimal':
+        return FractionDecimalScreen(categoryColor: color);
+      case 'number_compare':
+        return NumberCompareScreen(categoryColor: color);
+      case 'addition_subtraction':
+        return AdditionSubtractionScreen(categoryColor: color);
+      case 'counting_helper':
+        return CountingHelperScreen(categoryColor: color);
+      case 'speed_distance_time':
+        return SpeedDistanceTimeScreen(categoryColor: color);
+      case 'gpa_cgpa':
+        return GpaCgpaScreen(categoryColor: color);
+
+      // ── Converters / Time (new) ─────────────────────────
+      case 'angle_converter':
+        return AngleConverterScreen(categoryColor: color);
+      case 'time_period':
+        return TimePeriodScreen(categoryColor: color);
+      case 'timestamp_converter':
+        return TimestampConverterScreen(categoryColor: color);
+
+      // ── Finance / Business (new) ────────────────────────
+      case 'depreciation':
+        return DepreciationScreen(categoryColor: color);
+      case 'salary_breakup':
+        return SalaryBreakupScreen(categoryColor: color);
+      case 'tax_estimator':
+        return TaxEstimatorScreen(categoryColor: color);
+      case 'stamp_duty':
+        return StampDutyScreen(categoryColor: color);
+      case 'penalty_calculator':
+        return PenaltyCalculatorScreen(categoryColor: color);
+      case 'doc_size_helper':
+        return DocSizeHelperScreen(categoryColor: color);
+
+      // ── Health (new) ────────────────────────────────────
+      case 'bsa_calculator':
+        return BsaCalculatorScreen(categoryColor: color);
+      case 'dosage_calculator':
+        return DosageCalculatorScreen(categoryColor: color);
+      case 'heart_rate_zones':
+        return HeartRateZonesScreen(categoryColor: color);
+      case 'fluid_intake':
+        return FluidIntakeScreen(categoryColor: color);
+
+      // ── Engineering (new) ───────────────────────────────
+      case 'pipe_flow':
+        return PipeFlowScreen(categoryColor: color);
+      case 'thread_reference':
+        return ThreadReferenceScreen(categoryColor: color);
+      case 'tank_capacity':
+        return TankCapacityScreen(categoryColor: color);
+      case 'wood_volume':
+        return WoodVolumeScreen(categoryColor: color);
+      case 'material_estimator':
+        return MaterialEstimatorScreen(categoryColor: color);
+      case 'wastage_calculator':
+        return WastageCalculatorScreen(categoryColor: color);
+      case 'load_calculator':
+        return LoadCalculatorScreen(categoryColor: color);
+      case 'efficiency_calculator':
+        return EfficiencyCalculatorScreen(categoryColor: color);
+      case 'ohms_law':
+        return OhmsLawScreen(categoryColor: color);
+      case 'wire_gauge':
+        return WireGaugeScreen(categoryColor: color);
+      case 'slope_calculator':
+        return SlopeCalculatorScreen(categoryColor: color);
+
+      // ── Geometry (new) ──────────────────────────────────
+
+      // ── Digital Tools (new) ─────────────────────────────
+      case 'color_converter':
+        return ColorConverterScreen(categoryColor: color);
+      case 'screen_dpi':
+        return ScreenDpiScreen(categoryColor: color);
+      case 'file_size_estimator':
+        return FileSizeEstimatorScreen(categoryColor: color);
+      case 'time_complexity':
+        return TimeComplexityScreen(categoryColor: color);
 
       default:
         return _UnknownToolScreen(tool: tool, color: color);

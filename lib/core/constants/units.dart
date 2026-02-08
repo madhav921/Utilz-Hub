@@ -129,6 +129,20 @@ const powerUnits = {
   'btu_per_hour': UnitDefinition(name: 'BTU/Hour', symbol: 'BTU/h', factor: 0.293071),
 };
 
+/// DATA STORAGE - Base unit: Byte
+const dataStorageUnits = {
+  'byte': UnitDefinition(name: 'Byte', symbol: 'B', factor: 1.0),
+  'kilobyte': UnitDefinition(name: 'Kilobyte', symbol: 'KB', factor: 1024.0),
+  'megabyte': UnitDefinition(name: 'Megabyte', symbol: 'MB', factor: 1048576.0),
+  'gigabyte': UnitDefinition(name: 'Gigabyte', symbol: 'GB', factor: 1073741824.0),
+  'terabyte': UnitDefinition(name: 'Terabyte', symbol: 'TB', factor: 1099511627776.0),
+  'petabyte': UnitDefinition(name: 'Petabyte', symbol: 'PB', factor: 1125899906842624.0),
+  'bit': UnitDefinition(name: 'Bit', symbol: 'bit', factor: 0.125),
+  'kilobit': UnitDefinition(name: 'Kilobit', symbol: 'Kb', factor: 128.0),
+  'megabit': UnitDefinition(name: 'Megabit', symbol: 'Mb', factor: 131072.0),
+  'gigabit': UnitDefinition(name: 'Gigabit', symbol: 'Gb', factor: 134217728.0),
+};
+
 /// All conversion categories
 const allConversionCategories = {
   'length': ConversionCategory(name: 'Length', icon: '📏', units: lengthUnits),
@@ -141,4 +155,5 @@ const allConversionCategories = {
   'pressure': ConversionCategory(name: 'Pressure', icon: '💨', units: pressureUnits),
   'energy': ConversionCategory(name: 'Energy', icon: '⚡', units: energyUnits),
   'power': ConversionCategory(name: 'Power', icon: '🔋', units: powerUnits),
+  'data_storage': ConversionCategory(name: 'Data Storage', icon: '💾', units: dataStorageUnits),
 };

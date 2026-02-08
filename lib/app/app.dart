@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'theme_provider.dart';
-import '../features/home/enhanced_home_screen.dart';
+import '../features/home/home_screen.dart';
 
-/// Main app widget with theme management
+/// Main app widget with theme management.
 class ConverterApp extends StatefulWidget {
   const ConverterApp({super.key});
 
@@ -21,7 +21,7 @@ class _ConverterAppState extends State<ConverterApp> {
         return MaterialApp(
           title: 'All-in-One Toolbox',
           theme: _themeProvider.getThemeData(),
-          home: EnhancedHomeScreen(themeProvider: _themeProvider),
+          home: HomeScreen(themeProvider: _themeProvider),
           debugShowCheckedModeBanner: false,
         );
       },

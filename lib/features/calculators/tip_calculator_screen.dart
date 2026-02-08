@@ -37,6 +37,12 @@ class _TipCalculatorScreenState extends State<TipCalculatorScreen> {
   }
 
   @override
+  void dispose() {
+    _billController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(

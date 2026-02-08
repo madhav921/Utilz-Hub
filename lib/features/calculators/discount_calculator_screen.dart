@@ -38,6 +38,12 @@ class _DiscountCalculatorScreenState extends State<DiscountCalculatorScreen> {
   }
 
   @override
+  void dispose() {
+    _priceController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(

@@ -65,6 +65,14 @@ class _EMICalculatorScreenState extends State<EMICalculatorScreen> {
   }
 
   @override
+  void dispose() {
+    _principalController.dispose();
+    _rateController.dispose();
+    _tenureController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(

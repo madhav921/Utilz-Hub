@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import '../../app/theme_provider.dart';
+import '../../core/models/tool_category.dart';
+import '../../core/services/home_shortcut_service.dart';
 import '../home/home_screen.dart';
+import '../home/tool_router.dart';
 import '../professions/professions_screen.dart';
 import '../my_space/my_space_screen.dart';
 
@@ -30,6 +33,31 @@ class _AppShellState extends State<AppShell> {
       const ProfessionsScreen(),
       const MySpaceScreen(),
     ];
+    _handleShortcutLaunch();
+  }
+
+  /// If the app was opened via a pinned home-screen shortcut, navigate
+  /// directly to the requested tool.
+  Future<void> _handleShortcutLaunch() async {
+    final toolId = await HomeShortcutService.getInitialToolId();
+    if (toolId == null || !mounted) return;
+
+    final allTools = allToolsById;
+    final tool = allTools[toolId];
+    if (tool == null) return;
+
+    // Find the category colour for this tool
+    final cat = defaultCategories.firstWhere(
+      (c) => c.tools.any((t) => t.id == toolId),
+      orElse: () => defaultCategories.first,
+    );
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => ToolRouter.getScreen(tool, cat.color),
+      ),
+    );
   }
 
   @override

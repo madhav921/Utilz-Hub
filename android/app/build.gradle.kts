@@ -35,8 +35,18 @@ android {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig = signingConfigs.getByName("debug")
+
+            // ── Size optimizations ──────────────────────────
+            isMinifyEnabled = true       // R8 code shrinking & obfuscation
+            isShrinkResources = true     // Remove unused Android resources
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
+
+    // Use `flutter build apk --split-per-abi` for per-ABI APKs (~7 MB saved each)
 }
 
 flutter {

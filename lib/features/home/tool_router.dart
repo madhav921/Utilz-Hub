@@ -18,7 +18,6 @@ import '../calculators/age_calculator_screen.dart';
 import '../calculators/bill_splitter_screen.dart';
 import '../calculators/fuel_cost_screen.dart';
 import '../calculators/fd_rd_screen.dart';
-import '../calculators/mortgage_screen.dart';
 import '../calculators/loan_compare_screen.dart';
 import '../calculators/profit_loss_screen.dart';
 import '../calculators/markup_margin_screen.dart';
@@ -54,7 +53,6 @@ import '../calculators/gpa_cgpa_screen.dart';
 
 // ── New tool screens (Converters / Time) ─────────────────
 import '../converters/angle_converter_screen.dart';
-import '../calculators/time_period_screen.dart';
 import '../calculators/timestamp_converter_screen.dart';
 
 // ── New tool screens (Finance / Business) ────────────────
@@ -77,7 +75,6 @@ import '../calculators/fluid_intake_screen.dart';
 
 // ── New tool screens (Engineering) ───────────────────────
 import '../calculators/pipe_flow_screen.dart';
-import '../calculators/thread_reference_screen.dart';
 import '../calculators/tank_capacity_screen.dart';
 import '../calculators/wood_volume_screen.dart';
 import '../calculators/material_estimator_screen.dart';
@@ -92,7 +89,17 @@ import '../calculators/slope_calculator_screen.dart';
 import '../calculators/color_converter_screen.dart';
 import '../calculators/screen_dpi_screen.dart';
 import '../calculators/file_size_estimator_screen.dart';
-import '../calculators/time_complexity_screen.dart';
+
+// ── New tool screens (v2.1) ──────────────────────────────
+import '../calculators/roi_calculator_screen.dart';
+import '../calculators/loan_prepayment_screen.dart';
+import '../calculators/inflation_calculator_screen.dart';
+import '../calculators/currency_denomination_screen.dart';
+import '../converters/fuel_efficiency_screen.dart';
+import '../calculators/ideal_body_weight_screen.dart';
+import '../calculators/base64_encoder_screen.dart';
+import '../calculators/unit_cost_area_screen.dart';
+import '../calculators/loan_eligibility_screen.dart';
 
 /// Central router that maps [Tool.id] to its screen widget.
 ///
@@ -125,10 +132,14 @@ class ToolRouter {
         return SIPCalculatorScreen(categoryColor: color);
       case 'fd_rd':
         return FdRdScreen(categoryColor: color);
-      case 'mortgage':
-        return MortgageScreen(categoryColor: color);
       case 'loan_compare':
         return LoanCompareScreen(categoryColor: color);
+      case 'loan_prepayment':
+        return LoanPrepaymentScreen(categoryColor: color);
+      case 'inflation_calculator':
+        return InflationCalculatorScreen(categoryColor: color);
+      case 'currency_denomination':
+        return CurrencyDenominationScreen(categoryColor: color);
 
       // ── Business & Tax ──────────────────────────────────
       case 'gst':
@@ -141,6 +152,8 @@ class ToolRouter {
         return BreakEvenScreen(categoryColor: color);
       case 'unit_price':
         return UnitPriceScreen(categoryColor: color);
+      case 'roi_calculator':
+        return RoiCalculatorScreen(categoryColor: color);
 
       // ── Math & Numbers ──────────────────────────────────
       case 'percentage':
@@ -220,8 +233,8 @@ class ToolRouter {
       // ── Converters / Time (new) ─────────────────────────
       case 'angle_converter':
         return AngleConverterScreen(categoryColor: color);
-      case 'time_period':
-        return TimePeriodScreen(categoryColor: color);
+      case 'fuel_efficiency':
+        return FuelEfficiencyScreen(categoryColor: color);
       case 'timestamp_converter':
         return TimestampConverterScreen(categoryColor: color);
 
@@ -244,6 +257,10 @@ class ToolRouter {
         return FlatBuyingScreen(categoryColor: color);
       case 'rent_calculator':
         return RentCalculatorScreen(categoryColor: color);
+      case 'unit_cost_area':
+        return UnitCostAreaScreen(categoryColor: color);
+      case 'loan_eligibility':
+        return LoanEligibilityScreen(categoryColor: color);
 
       // ── Health (new) ────────────────────────────────────
       case 'bsa_calculator':
@@ -254,12 +271,12 @@ class ToolRouter {
         return HeartRateZonesScreen(categoryColor: color);
       case 'fluid_intake':
         return FluidIntakeScreen(categoryColor: color);
+      case 'ideal_body_weight':
+        return IdealBodyWeightScreen(categoryColor: color);
 
       // ── Engineering (new) ───────────────────────────────
       case 'pipe_flow':
         return PipeFlowScreen(categoryColor: color);
-      case 'thread_reference':
-        return ThreadReferenceScreen(categoryColor: color);
       case 'tank_capacity':
         return TankCapacityScreen(categoryColor: color);
       case 'wood_volume':
@@ -288,8 +305,8 @@ class ToolRouter {
         return ScreenDpiScreen(categoryColor: color);
       case 'file_size_estimator':
         return FileSizeEstimatorScreen(categoryColor: color);
-      case 'time_complexity':
-        return TimeComplexityScreen(categoryColor: color);
+      case 'base64_encoder':
+        return Base64EncoderScreen(categoryColor: color);
 
       // ── Document Tools (Coming Soon) ────────────────────
       case 'pdf_merge':

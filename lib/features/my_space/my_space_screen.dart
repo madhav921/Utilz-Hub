@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../core/models/tool_category.dart';
 import '../../core/services/cache_service.dart';
 import '../home/tool_router.dart';
+import 'custom_tool_builder_screen.dart';
 
 /// "My Space" tab — user-managed folders with favourites at the top.
 ///
@@ -382,6 +383,17 @@ class _MySpaceScreenState extends State<MySpaceScreen> {
 
           const SizedBox(height: 20),
 
+          // ── Custom Tool Builder (Coming Soon) ──
+          _CustomToolBuilderBanner(
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (_) => const CustomToolBuilderScreen()),
+            ),
+          ),
+
+          const SizedBox(height: 20),
+
           // ── Custom Folders ──
           if (_folders.isNotEmpty) ...[
             Padding(
@@ -483,9 +495,18 @@ class _Folder {
         'toolIds': toolIds,
       };
 
+  /// Reverse-lookup from codePoint to one of the known [_folderIcons].
+  /// This avoids `IconData(...)` which blocks icon tree-shaking.
+  static IconData _iconFromCodePoint(int codePoint) {
+    for (final ic in _MySpaceScreenState._folderIcons) {
+      if (ic.codePoint == codePoint) return ic;
+    }
+    return Icons.folder; // fallback
+  }
+
   factory _Folder.fromMap(Map<String, dynamic> m) => _Folder(
         name: m['name'] as String,
-        icon: IconData(m['icon'] as int, fontFamily: 'MaterialIcons'),
+        icon: _iconFromCodePoint(m['icon'] as int),
         color: Color(m['color'] as int),
         toolIds: (m['toolIds'] as List).cast<String>(),
       );
@@ -774,6 +795,109 @@ class _FolderCard extends StatelessWidget {
                 },
               ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Banner card promoting the upcoming Custom Tool Builder feature.
+class _CustomToolBuilderBanner extends StatelessWidget {
+  final VoidCallback onTap;
+
+  const _CustomToolBuilderBanner({required this.onTap});
+
+  static const _accent = Color(0xFF6366F1);
+
+  @override
+  Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              _accent.withValues(alpha: isDark ? 0.18 : 0.12),
+              _accent.withValues(alpha: isDark ? 0.06 : 0.04),
+            ],
+          ),
+          border: Border.all(
+            color: _accent.withValues(alpha: 0.2),
+          ),
+        ),
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: _accent.withValues(alpha: 0.15),
+              ),
+              child: const Icon(Icons.build_circle_outlined,
+                  size: 28, color: _accent),
+            ),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Row(
+                    children: [
+                      Text('Custom Tool Builder',
+                          style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              color: _accent)),
+                      SizedBox(width: 8),
+                      _ComingSoonChip(),
+                    ],
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    'Build your own calculators and converters',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: isDark
+                          ? Colors.grey.shade400
+                          : Colors.grey.shade600,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Icon(Icons.chevron_right,
+                color: _accent.withValues(alpha: 0.6)),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _ComingSoonChip extends StatelessWidget {
+  const _ComingSoonChip();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: const Color(0xFF6366F1).withValues(alpha: 0.15),
+      ),
+      child: const Text(
+        'COMING SOON',
+        style: TextStyle(
+          fontSize: 9,
+          fontWeight: FontWeight.bold,
+          color: Color(0xFF6366F1),
+          letterSpacing: 0.5,
         ),
       ),
     );

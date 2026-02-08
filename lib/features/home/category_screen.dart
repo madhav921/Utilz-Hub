@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import '../../core/models/tool_category.dart';
 import '../../core/services/cache_service.dart';
+import '../../core/services/home_shortcut_service.dart';
 import '../../core/widgets/live_badge.dart';
 import 'tool_router.dart';
 
@@ -175,6 +176,13 @@ class _CategoryScreenState extends State<CategoryScreen>
             onTap: () => _openTool(tool),
             onFavouriteTap: () => _toggleFavourite(tool),
             onLongPress: _enterEditMode,
+            onPinToHome: () => HomeShortcutService.confirmAndPin(
+              context,
+              toolId: tool.id,
+              toolName: tool.name,
+              icon: tool.icon,
+              accentColor: c,
+            ),
           );
 
           if (_editMode) {
@@ -210,6 +218,7 @@ class _CategoryScreenState extends State<CategoryScreen>
                           onTap: () {},
                           onFavouriteTap: () {},
                           onLongPress: () {},
+                          onPinToHome: () {},
                         ),
                       ),
                     ),
@@ -228,7 +237,7 @@ class _CategoryScreenState extends State<CategoryScreen>
   }
 }
 
-/// Individual tool card with heart icon for favouriting.
+/// Individual tool card with heart icon and 3-dot menu for home pinning.
 class _ToolCard extends StatelessWidget {
   final Tool tool;
   final Color color;
@@ -236,6 +245,7 @@ class _ToolCard extends StatelessWidget {
   final VoidCallback onTap;
   final VoidCallback onFavouriteTap;
   final VoidCallback onLongPress;
+  final VoidCallback onPinToHome;
 
   const _ToolCard({
     required this.tool,
@@ -244,6 +254,7 @@ class _ToolCard extends StatelessWidget {
     required this.onTap,
     required this.onFavouriteTap,
     required this.onLongPress,
+    required this.onPinToHome,
   });
 
   @override
@@ -290,6 +301,41 @@ class _ToolCard extends StatelessWidget {
                   left: 4,
                   child: LiveBadge(size: 7),
                 ),
+              // 3-dot menu (bottom-right)
+              Positioned(
+                bottom: 2,
+                right: 0,
+                child: SizedBox(
+                  width: 24,
+                  height: 24,
+                  child: PopupMenuButton<String>(
+                    padding: EdgeInsets.zero,
+                    iconSize: 16,
+                    icon: Icon(
+                      Icons.more_vert,
+                      size: 16,
+                      color: Colors.grey.shade400,
+                    ),
+                    onSelected: (val) {
+                      if (val == 'pin') onPinToHome();
+                    },
+                    itemBuilder: (_) => [
+                      const PopupMenuItem(
+                        value: 'pin',
+                        height: 40,
+                        child: Row(
+                          children: [
+                            Icon(Icons.add_to_home_screen, size: 18),
+                            SizedBox(width: 8),
+                            Text('Add to Home Screen',
+                                style: TextStyle(fontSize: 13)),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
               // Content
               Center(
                 child: Padding(

@@ -8,6 +8,7 @@ class ToolCategory {
   final Color color;
   final List<Tool> tools;
   final int sortOrder;
+  final bool showOnHome;
 
   const ToolCategory({
     required this.id,
@@ -16,9 +17,10 @@ class ToolCategory {
     required this.color,
     required this.tools,
     required this.sortOrder,
+    this.showOnHome = true,
   });
 
-  ToolCategory copyWith({int? sortOrder}) {
+  ToolCategory copyWith({int? sortOrder, bool? showOnHome}) {
     return ToolCategory(
       id: id,
       name: name,
@@ -26,6 +28,7 @@ class ToolCategory {
       color: color,
       tools: tools,
       sortOrder: sortOrder ?? this.sortOrder,
+      showOnHome: showOnHome ?? this.showOnHome,
     );
   }
 }
@@ -57,13 +60,14 @@ enum ToolType { calculator, converter }
 // ============================================================
 
 final List<ToolCategory> defaultCategories = [
-  // ── 1. Everyday Essentials ────────────────────────────────
+  // ── 1. Everyday Essentials (only in My Space) ──────────────
   const ToolCategory(
     id: 'everyday',
     name: 'Everyday Essentials',
     icon: Icons.favorite_outline,
     color: Color(0xFFEC4899),
     sortOrder: 0,
+    showOnHome: false,
     tools: [
       Tool(
         id: 'discount',
@@ -246,13 +250,6 @@ final List<ToolCategory> defaultCategories = [
         name: 'Penalty Calculator',
         icon: Icons.warning_amber,
         description: 'Penalty / fine on overdue',
-        type: ToolType.calculator,
-      ),
-      Tool(
-        id: 'doc_size_helper',
-        name: 'Document Helper',
-        icon: Icons.description,
-        description: 'Page count & paper weight',
         type: ToolType.calculator,
       ),
     ],
@@ -615,13 +612,14 @@ final List<ToolCategory> defaultCategories = [
     ],
   ),
 
-  // ── 10. Engineering ───────────────────────────────────────
+  // ── 10. Engineering (professions only) ────────────────────
   const ToolCategory(
     id: 'engineering',
     name: 'Engineering',
     icon: Icons.engineering,
     color: Color(0xFF0891B2),
     sortOrder: 9,
+    showOnHome: false,
     tools: [
       Tool(
         id: 'pipe_flow',
@@ -696,13 +694,14 @@ final List<ToolCategory> defaultCategories = [
     ],
   ),
 
-  // ── 11. Digital Tools ─────────────────────────────────────
+  // ── 11. Digital Tools (professions only) ──────────────────
   const ToolCategory(
     id: 'digital',
     name: 'Digital Tools',
     icon: Icons.code,
     color: Color(0xFF7C3AED),
     sortOrder: 10,
+    showOnHome: false,
     tools: [
       Tool(
         id: 'color_converter',
@@ -730,6 +729,106 @@ final List<ToolCategory> defaultCategories = [
         name: 'Time Complexity',
         icon: Icons.timer,
         description: 'Big-O algorithm reference',
+        type: ToolType.calculator,
+      ),
+    ],
+  ),
+
+  // ── 12. Real Estate & Vehicle (professions only) ──────────
+  const ToolCategory(
+    id: 'real_estate',
+    name: 'Real Estate & Vehicle',
+    icon: Icons.real_estate_agent,
+    color: Color(0xFFFB923C),
+    sortOrder: 11,
+    showOnHome: false,
+    tools: [
+      Tool(
+        id: 'vehicle_cost',
+        name: 'Vehicle Cost',
+        icon: Icons.directions_car,
+        description: 'On-road price with RTO, insurance',
+        type: ToolType.calculator,
+      ),
+      Tool(
+        id: 'flat_buying',
+        name: 'Flat Buying Cost',
+        icon: Icons.apartment,
+        description: 'Total property buying cost',
+        type: ToolType.calculator,
+      ),
+      Tool(
+        id: 'rent_calculator',
+        name: 'Rent Calculator',
+        icon: Icons.house,
+        description: 'Rent affordability & costs',
+        type: ToolType.calculator,
+      ),
+    ],
+  ),
+
+  // ── 13. Document Tools (Coming Soon) ──────────────────────
+  const ToolCategory(
+    id: 'document_tools',
+    name: 'Document Tools',
+    icon: Icons.description,
+    color: Color(0xFF64748B),
+    sortOrder: 12,
+    tools: [
+      Tool(
+        id: 'pdf_merge',
+        name: 'Merge PDFs',
+        icon: Icons.merge_type,
+        description: 'Combine multiple PDF files',
+        type: ToolType.calculator,
+      ),
+      Tool(
+        id: 'pdf_split',
+        name: 'Split PDF',
+        icon: Icons.call_split,
+        description: 'Extract pages from a PDF',
+        type: ToolType.calculator,
+      ),
+      Tool(
+        id: 'pdf_compress',
+        name: 'Compress PDF',
+        icon: Icons.compress,
+        description: 'Reduce PDF file size',
+        type: ToolType.calculator,
+      ),
+      Tool(
+        id: 'pdf_to_image',
+        name: 'PDF → Image',
+        icon: Icons.image,
+        description: 'Convert PDF pages to images',
+        type: ToolType.converter,
+      ),
+      Tool(
+        id: 'image_to_pdf',
+        name: 'Image → PDF',
+        icon: Icons.picture_as_pdf,
+        description: 'Convert images to a PDF',
+        type: ToolType.converter,
+      ),
+      Tool(
+        id: 'word_to_pdf',
+        name: 'Word → PDF',
+        icon: Icons.picture_as_pdf,
+        description: 'Convert DOCX to PDF',
+        type: ToolType.converter,
+      ),
+      Tool(
+        id: 'pdf_to_word',
+        name: 'PDF → Word',
+        icon: Icons.article,
+        description: 'Convert PDF to editable DOCX',
+        type: ToolType.converter,
+      ),
+      Tool(
+        id: 'pdf_watermark',
+        name: 'Watermark PDF',
+        icon: Icons.branding_watermark,
+        description: 'Add text or image watermark',
         type: ToolType.calculator,
       ),
     ],

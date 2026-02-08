@@ -103,7 +103,26 @@ class _ColorConverterScreenState extends State<ColorConverterScreen> {
       children: [
         SizedBox(width: 20, child: Text(label, style: TextStyle(fontWeight: FontWeight.bold, color: clr))),
         Expanded(child: Slider(value: value, min: 0, max: 255, divisions: 255, activeColor: clr, onChanged: onChanged)),
-        SizedBox(width: 36, child: Text('${value.round()}')),
+        SizedBox(
+          width: 50,
+          height: 32,
+          child: TextField(
+            key: ValueKey('$label${value.round()}'),
+            controller: TextEditingController(text: '${value.round()}'),
+            keyboardType: TextInputType.number,
+            textAlign: TextAlign.center,
+            style: const TextStyle(fontSize: 13),
+            decoration: InputDecoration(
+              isDense: true,
+              contentPadding: const EdgeInsets.symmetric(horizontal: 4, vertical: 6),
+              border: OutlineInputBorder(borderRadius: BorderRadius.circular(6)),
+            ),
+            onSubmitted: (t) {
+              final v = double.tryParse(t);
+              if (v != null) onChanged(v.clamp(0, 255));
+            },
+          ),
+        ),
       ],
     );
   }

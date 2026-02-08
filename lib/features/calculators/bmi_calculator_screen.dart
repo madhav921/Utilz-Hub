@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../core/widgets/slider_with_input.dart';
 
 class BMICalculatorScreen extends StatefulWidget {
   final Color categoryColor;
@@ -195,7 +196,7 @@ class _BMICalculatorScreenState extends State<BMICalculatorScreen> {
             Text('${value.toStringAsFixed(0)} $suffix', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: widget.categoryColor)),
           ],
         ),
-        Slider(value: value, min: min, max: max, divisions: (max - min).toInt(), activeColor: widget.categoryColor, onChanged: onChanged),
+        SliderWithInput(value: value, min: min, max: max, divisions: (max - min).toInt(), activeColor: widget.categoryColor, onChanged: onChanged),
       ],
     );
   }

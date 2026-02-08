@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../core/widgets/calculator_scaffold.dart';
+import '../../core/widgets/slider_with_input.dart';
 
 /// Kid-friendly counting helper with visual dots.
 class CountingHelperScreen extends StatefulWidget {
@@ -76,13 +77,12 @@ class _CountingHelperScreenState extends State<CountingHelperScreen> {
         ),
         const SizedBox(height: 16),
         // Slider for quick jump
-        Slider(
+        SliderWithInput(
           value: _count.toDouble(),
           min: 1,
           max: 100,
           divisions: 99,
           activeColor: c,
-          label: '$_count',
           onChanged: (v) => setState(() => _count = v.round()),
         ),
         Center(

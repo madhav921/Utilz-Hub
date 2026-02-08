@@ -69,7 +69,7 @@ class _ProfessionCard extends StatelessWidget {
               ),
               const SizedBox(height: 4),
               Text(
-                '${profession.toolIds.length} tools',
+                '${profession.allToolIds.length} tools',
                 style: theme.textTheme.bodySmall?.copyWith(
                   color: theme.colorScheme.onSurface.withAlpha(150),
                 ),

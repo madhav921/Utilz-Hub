@@ -3,6 +3,7 @@ import '../../core/widgets/calculator_scaffold.dart';
 import '../../core/widgets/result_row.dart';
 
 /// Convert between days, weeks, months, years.
+/// Always shows output section (with 0s when no input).
 class TimePeriodScreen extends StatefulWidget {
   final Color categoryColor;
   const TimePeriodScreen({super.key, required this.categoryColor});
@@ -26,8 +27,7 @@ class _TimePeriodScreenState extends State<TimePeriodScreen> {
   }
 
   Map<String, String> _convert() {
-    final v = double.tryParse(_ctrl.text);
-    if (v == null) return {};
+    final v = double.tryParse(_ctrl.text) ?? 0;
     final days = _toDays(v);
     return {
       'Days': days.toStringAsFixed(1),
@@ -77,17 +77,16 @@ class _TimePeriodScreenState extends State<TimePeriodScreen> {
           onChanged: (_) => setState(() {}),
         ),
         const SizedBox(height: 20),
-        if (r.isNotEmpty)
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(12),
-              child: Column(
-                children: r.entries.map((e) =>
-                  ResultRow(label: e.key, value: e.value),
-                ).toList(),
-              ),
+        Card(
+          child: Padding(
+            padding: const EdgeInsets.all(12),
+            child: Column(
+              children: r.entries.map((e) =>
+                ResultRow(label: e.key, value: e.value),
+              ).toList(),
             ),
           ),
+        ),
       ],
     );
   }

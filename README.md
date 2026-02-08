@@ -1,193 +1,346 @@
-# Utilz Hub — All-in-One Converter & Calculator
+# Utilz Hub All-in-One Toolbox App
 
-A feature-rich, offline-first Flutter app with **77+ tools** spanning calculators, unit converters, live rates, and reference charts — organised by **11 tool categories** and **11 profession-based groupings**.
-
----
-
-## ✨ Highlights
-
-| Feature | Details |
-|---|---|
-| **77+ Tools** | Calculators, converters, live data, reference charts |
-| **11 Categories** | Everyday, Finance, Business, Math, Converters, Geometry, Time, Live Rates, Health, Engineering, Digital |
-| **11 Professions** | Pre-School, High-School, College, Lawyers, Doctors, Plumbers, Carpenters, Engineers, CAs, Business Owners, IT/Software |
-| **3 Themes** | Light, Dark, AMOLED Black |
-| **Bottom Nav** | Home (category grid) + Professions tab |
-| **Live Data** | Currency, Gold, Silver, Fuel — cached & batched |
-| **Save & Export** | Bookmark results, share as text |
-| **Offline-first** | Works without internet (except live rates) |
-| **Reorderable** | Drag-to-reorder category grid |
+A comprehensive, offline-first **Flutter** utility app packed with **89 tools** across **13 categories**, **12 profession-based groupings**, a personalizable **My Space** workspace, and real-time live-rate converters all in a single, beautifully themed application.
 
 ---
 
-## 🗂️ Tool Categories
+## Highlights
 
-### 1. Everyday Essentials
-Discount · Tip · Bill Splitter · Fuel Cost · Age · BMI & Calories
-
-### 2. Finance & Loans
-EMI · Simple Interest · Compound Interest · SIP · FD/RD · Mortgage · Loan Compare · Depreciation
-
-### 3. Business & Tax
-GST · Profit & Loss · Markup & Margin · Break-Even · Unit Price · Salary Breakup · Tax Estimator · Stamp Duty · Penalty Calculator · Document Helper
-
-### 4. Math & Numbers
-Percentage · % Change · Ratio · Number Base · Scientific Notation · Fraction ↔ Decimal · Number Compare · Add & Subtract · Counting Helper · Speed·Distance·Time · GPA / CGPA
-
-### 5. Unit Converters
-Length · Weight · Temperature · Area · Volume · Speed · Time · Pressure · Energy · Power · Data Storage · Angle
-
-### 6. Geometry
-Circle · Triangle · Rectangle · 3D Shapes · Slope & Angle
-
-### 7. Time & Date
-Date Difference · Work Hours · Countdown · Time Period · Timestamp ↔ Date
-
-### 8. Live Rates 🔴
-Currency · Gold Price · Silver Price · Fuel Prices
-
-### 9. Health & Body
-Body Surface Area · Dosage Calculator · Heart Rate Zones · Fluid Intake
-
-### 10. Engineering
-Pipe Flow · Thread Sizes · Tank Capacity · Wood Volume · Material Estimator · Wastage % · Load Calculator · Efficiency · Ohm's Law · Wire Gauge (AWG)
-
-### 11. Digital Tools
-Color Converter · Screen DPI · File Size Estimator · Time Complexity
+| Feature | Description |
+|---------|-------------|
+| Home | Reorderable category grid with iOS-style jiggle mode |
+| Professions | 12 curated tool sets for different career roles |
+| My Space | Personal workspace create custom folders and favourites |
+| 3 Themes | Dark, Light and Ocean switch instantly |
+| Favourites | Heart-tap any tool to add it to Everyday Essentials |
+| Save and Share | Bookmark results, copy to clipboard, share via apps |
+| Live Rates | Real-time currency, gold, silver and fuel prices |
+| Coming Soon | Document Tools (PDF/Word) actively in development |
 
 ---
 
-## 👷 Profession-Based Groupings
-
-Each profession page shows a curated set of tools (no duplicates within a page):
-
-| Profession | # Tools | Key Tools |
-|---|---|---|
-| Pre-School Kids | 3 | Number Compare, Counting Helper, Add & Subtract |
-| High-School | 22 | Percentage, Geometry, Unit Converters, Slope |
-| Graduation / College | 18 | GPA/CGPA, Interest, EMI, BMI, Discount |
-| Lawyers | 12 | Stamp Duty, Penalty, GST, Date Diff, Tax |
-| Doctors / Medical | 10 | BMI, BSA, Dosage, Heart Rate, Fluid Intake |
-| Plumbers | 11 | Pipe Flow, Thread Sizes, Tank, Pressure |
-| Carpenters | 15 | Wood Volume, Material, Area, Slope, Angle |
-| Engineers | 23 | Ohm's Law, Load, Efficiency, Wire Gauge, All units |
-| Chartered Accountants | 18 | GST, Tax, Depreciation, All finance tools |
-| Business Owners | 20 | P&L, Markup, Break-Even, Salary, Stamp Duty |
-| IT / Software | 17 | Color Converter, DPI, File Size, Big-O, Number Base |
-
----
-
-## 🛠️ Tech Stack
-
-- **Framework**: Flutter (Dart SDK ≥ 3.0.0)
-- **UI**: Material Design 3
-- **State**: `StatefulWidget` + `ChangeNotifier` (ThemeProvider)
-- **Storage**: `SharedPreferences` (gzip + Base64 compressed)
-- **HTTP**: `http` package for live rates
-- **Sharing**: `share_plus` & `path_provider`
-- **Architecture**: Feature-first folder structure
-
----
-
-## 📁 Project Structure
-
-```
-lib/
-├── main.dart                         # Entry point
-├── app/
-│   ├── app.dart                      # MaterialApp → AppShell
-│   ├── theme.dart                    # M3 theme builder
-│   └── theme_provider.dart           # Light / Dark / AMOLED
-├── core/
-│   ├── constants/units.dart          # Unit definitions
-│   ├── models/
-│   │   ├── tool_category.dart        # 11 categories, 77+ Tool objects
-│   │   └── profession_category.dart  # 11 professions (reference by ID)
-│   ├── services/
-│   │   ├── cache_service.dart        # Category order persistence
-│   │   ├── live_rates_service.dart   # Currency, metals, fuel APIs
-│   │   └── saved_results_service.dart# Compressed bookmark storage
-│   ├── utils/
-│   │   ├── formatter.dart
-│   │   └── math_helpers.dart
-│   └── widgets/
-│       ├── calculator_scaffold.dart  # Shared scaffold + save/export
-│       ├── live_badge.dart           # "LIVE" chip
-│       ├── result_row.dart
-│       ├── save_button.dart
-│       ├── export_button.dart
-│       └── slider_input.dart
-├── features/
-│   ├── home/
-│   │   ├── app_shell.dart            # BottomNavigationBar (2 tabs)
-│   │   ├── home_screen.dart          # Category grid + search + reorder
-│   │   ├── category_screen.dart      # Tool list for a category
-│   │   └── tool_router.dart          # Central switch router
-│   ├── professions/
-│   │   ├── professions_screen.dart   # Grid of 11 professions
-│   │   └── profession_tools_screen.dart # Tools list for a profession
-│   ├── calculators/                  # 50+ calculator screens
-│   ├── converters/                   # Unit converter engine
-│   ├── live/                         # Live rate screens
-│   └── saved/                        # Saved results viewer
-└── widgets/
-    ├── number_input.dart
-    ├── result_card.dart
-    └── unit_dropdown.dart
-```
-
----
-
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
-- Flutter SDK (stable channel, ≥ 3.0.0)
-- Android Studio / VS Code
-- Android device or emulator
 
-### Run
+- **Flutter SDK** >= 3.0.0 (< 4.0.0)
+- **Dart SDK** (bundled with Flutter)
+- Android Studio / Xcode (for mobile) or Chrome (for web)
 
-```bash
+### Installation
+
+```
+# Clone the repository
 git clone https://github.com/madhav921/Utilz-Hub.git
 cd Utilz-Hub/flutter_application
+
+# Install dependencies
 flutter pub get
+
+# Run the app
 flutter run
 ```
 
-### Build Release
+### Build for Release
 
-```bash
-flutter build appbundle --release
-# Output: build/app/outputs/bundle/release/
+```
+# Android APK
+flutter build apk --release
+
+# iOS
+flutter build ios --release
+
+# Web
+flutter build web --release
 ```
 
 ---
 
-## 📦 Dependencies
+## Tech Stack
 
-| Package | Purpose |
-|---|---|
-| `intl` | Number & date formatting |
-| `collection` | List utilities |
-| `http` | Live rate API calls |
-| `shared_preferences` | Local storage |
-| `share_plus` | Share/export results |
-| `path_provider` | File system paths |
-
----
-
-## 🎨 Themes
-
-| Mode | Description |
-|---|---|
-| **Light** | Clean white/grey palette |
-| **Dark** | Material You dark surface |
-| **AMOLED** | Pure black for OLED screens |
-
-Toggle from the palette icon in the top-right of the home screen.
+| Layer | Technology |
+|-------|------------|
+| **Framework** | Flutter 3.x (Material Design 3) |
+| **Language** | Dart |
+| **State Management** | ChangeNotifier + setState |
+| **Persistence** | shared_preferences favourites, folder data, category order, saved results |
+| **Networking** | http live currency, gold, silver and fuel rate APIs |
+| **Sharing** | share_plus share calculation results |
+| **File Storage** | path_provider local file paths |
+| **Formatting** | intl number and date formatting |
+| **Collections** | collection list utilities |
 
 ---
 
-## 📄 License
+## Project Structure
 
-This project is for educational and utility purposes.
+```
+lib/
+  main.dart                        # Entry point
+  app/
+    app.dart                       # MaterialApp setup
+    app_shell.dart                 # 3-tab bottom navigation shell
+    theme_provider.dart            # Dark / Light / Ocean theme switcher
+  core/
+    constants/                     # Unit conversion data and lookup tables
+    models/
+      tool_category.dart           # 13 tool categories and 89 Tool definitions
+      profession_category.dart     # 12 profession groupings
+    services/
+      cache_service.dart           # SharedPreferences persistence layer
+    utils/                         # Shared helpers (formatters, validators)
+    widgets/                       # Reusable widgets (LiveBadge, etc.)
+  features/
+    home/
+      home_screen.dart             # Category grid with jiggle reorder
+      category_screen.dart         # Tool list within a category
+      tool_router.dart             # Central router to 89 tool screens
+      coming_soon_screen.dart      # Placeholder for upcoming tools
+    professions/
+      professions_screen.dart      # Profession grid
+      profession_tools_screen.dart
+    my_space/
+      my_space_screen.dart         # Custom folders and favourites workspace
+    calculators/                   # Individual calculator screens
+    converters/                    # Individual converter screens
+    saved/
+      saved_results_screen.dart
+  widgets/
+    number_input.dart              # Styled numeric text field
+    result_card.dart               # Calculation result display card
+    unit_dropdown.dart             # Unit picker dropdown
+```
+
+---
+
+## All 89 Tools by Category
+
+### 1. Finance and Loans (8 tools)
+| Tool | Description |
+|------|-------------|
+| EMI Calculator | Monthly loan installments |
+| Simple Interest | Calculate simple interest |
+| Compound Interest | Calculate compound interest |
+| SIP Calculator | Systematic investment returns |
+| FD/RD Calculator | Fixed and recurring deposit returns |
+| Mortgage | Home loan EMI and amortization |
+| Loan Compare | Compare two loan options |
+| Depreciation | SLM, WDV and DDB depreciation |
+
+### 2. Business and Tax (9 tools)
+| Tool | Description |
+|------|-------------|
+| GST Calculator | GST with CGST/SGST breakdown |
+| Profit and Loss | Calculate profit margins |
+| Markup and Margin | Markup vs margin calculator |
+| Break-Even | Find break-even point |
+| Unit Price Compare | Compare price per unit |
+| Salary Breakup | CTC to in-hand breakup (editable components) |
+| Tax Estimator | Basic income tax estimate |
+| Stamp Duty | Stamp duty and registration costs |
+| Penalty Calculator | Penalty / fine on overdue amounts |
+
+### 3. Math and Numbers (11 tools)
+| Tool | Description |
+|------|-------------|
+| Percentage | Calculate percentages easily |
+| % Change | Percentage increase / decrease |
+| Ratio | Calculate and simplify ratios |
+| Number Base | Binary, Hex, Decimal, Octal converter |
+| Scientific Notation | Standard to scientific form |
+| Fraction to Decimal | Convert fractions and decimals |
+| Number Compare | Compare two numbers |
+| Add and Subtract | Simple addition and subtraction |
+| Counting Helper | Visual counting 1 to 100 |
+| Speed Distance Time | Speed = Distance / Time |
+| GPA / CGPA | GPA calculator and % to GPA |
+
+### 4. Unit Converters (12 tools)
+| Tool | Description |
+|------|-------------|
+| Length | Meters, feet, miles and more |
+| Weight | Kilograms, pounds, ounces |
+| Temperature | Celsius, Fahrenheit, Kelvin |
+| Area | sq.m, acres, hectares |
+| Volume | Liters, gallons, cups |
+| Speed | km/h, mph, knots |
+| Time | Seconds to years |
+| Pressure | Pascal, bar, PSI, atm |
+| Energy | Joules, calories, kWh |
+| Power | Watts, horsepower |
+| Data Storage | Bytes, KB, MB, GB, TB |
+| Angle | Degree, radian, gradian |
+
+### 5. Geometry (5 tools)
+| Tool | Description |
+|------|-------------|
+| Circle | Area and circumference |
+| Triangle | Area, perimeter, angles |
+| Rectangle | Perimeter and area |
+| 3D Shapes | Sphere, cylinder, cone, cube |
+| Slope and Angle | Rise/run, grade, degrees |
+
+### 6. Time and Date (5 tools)
+| Tool | Description |
+|------|-------------|
+| Date Difference | Days between two dates |
+| Work Hours | Calculate work hours and pay |
+| Countdown | Days until a target date |
+| Time Period | Days to weeks to months to years |
+| Timestamp to Date | Unix timestamp converter |
+
+### 7. Live Rates (4 tools)
+| Tool | Description |
+|------|-------------|
+| Currency | Live currency conversion |
+| Gold Price | Live gold price by region and karat |
+| Silver Price | Live silver price by grade |
+| Fuel Prices | Live fuel prices by country |
+
+### 8. Health and Body (4 tools)
+| Tool | Description |
+|------|-------------|
+| Body Surface Area | BSA for drug dosing |
+| Dosage Calculator | Drug dose by body weight |
+| Heart Rate Zones | Training heart rate zones |
+| Fluid Intake | Daily water intake guide |
+
+### 9. Engineering (10 tools)
+| Tool | Description |
+|------|-------------|
+| Pipe Flow | Pipe diameter and flow rate |
+| Thread Sizes | Bolt and screw thread chart |
+| Tank Capacity | Water tank volume |
+| Wood Volume | Board feet and cubic volume |
+| Material Estimator | Bricks, cement, tiles, paint |
+| Wastage % | Material wastage calculator |
+| Load Calculator | Force, stress from mass |
+| Efficiency | Input vs output efficiency |
+| Ohms Law | V = I x R calculator |
+| Wire Gauge (AWG) | Wire size and current reference |
+
+### 10. Digital Tools (4 tools)
+| Tool | Description |
+|------|-------------|
+| Color Converter | HEX to RGB to HSL |
+| Screen DPI | PPI and resolution calculator |
+| File Size | Image/video/audio size estimate |
+| Time Complexity | Big-O algorithm reference |
+
+### 11. Real Estate and Vehicle (3 tools)
+| Tool | Description |
+|------|-------------|
+| Vehicle Cost | On-road price with RTO, insurance |
+| Flat Buying Cost | Total property buying cost |
+| Rent Calculator | Rent affordability and costs |
+
+### 12. Everyday Essentials (6 tools in My Space)
+| Tool | Description |
+|------|-------------|
+| Discount | Calculate sale prices and savings |
+| Tip Calculator | Calculate tips and split bills |
+| Bill Splitter | Split bills among friends |
+| Fuel Cost | Calculate trip fuel expenses |
+| Age Calculator | Calculate exact age in detail |
+| BMI and Calories | Body mass index and daily needs |
+
+### 13. Document Tools - Coming Soon (8 tools)
+
+> These tools are actively being developed and will be available in a future update.
+
+| Tool | Description |
+|------|-------------|
+| Merge PDFs | Combine multiple PDF files |
+| Split PDF | Extract pages from a PDF |
+| Compress PDF | Reduce PDF file size |
+| PDF to Image | Convert PDF pages to images |
+| Image to PDF | Convert images to a PDF |
+| Word to PDF | Convert DOCX to PDF |
+| PDF to Word | Convert PDF to editable DOCX |
+| Watermark PDF | Add text or image watermark |
+
+---
+
+## Professions Tab - 12 Career Groupings
+
+Each profession surfaces a curated subset of the 89 tools most relevant to that role. High-School includes sub-categories (Mathematics, Geometry, Physics, General).
+
+| Profession | Example Tools |
+|------------|---------------|
+| Pre-School Kids | Counting Helper, Add and Subtract, Number Compare |
+| High-School | Percentage, Ratio, Circle, Triangle, Speed Distance Time, GPA |
+| Lawyers | Stamp Duty, Penalty Calculator, Tax Estimator |
+| Doctors / Medical | BSA, Dosage Calculator, Heart Rate Zones, Fluid Intake, BMI |
+| Plumbers | Pipe Flow, Tank Capacity, Material Estimator |
+| Carpenters | Wood Volume, Material Estimator, Area, Length |
+| Engineers | Ohms Law, Wire Gauge, Load Calculator, Efficiency, Pipe Flow |
+| Chartered Accountants | GST, Profit and Loss, Tax Estimator, Depreciation, Break-Even |
+| Real Estate and Vehicle | Vehicle Cost, Flat Buying, Rent Calculator, Stamp Duty, Mortgage |
+| IT / Software | Color Converter, Screen DPI, File Size, Time Complexity, Number Base |
+
+---
+
+## My Space
+
+A personal workspace where users can:
+
+- **Everyday Essentials** Quick-access favourite tools (heart any tool to add it)
+- **Create custom folders** Choose name, icon (16 options) and color (10 options)
+- **Add any tool** to any folder via a searchable tool picker
+- **Edit / delete** folders and remove individual tools
+- All data persists locally via SharedPreferences
+
+---
+
+## Key Features
+
+- **Offline-first** All calculators and converters work without internet
+- **Live rate APIs** Currency, gold, silver and fuel prices fetched in real-time
+- **iOS-style jiggle reorder** Long-press the home grid to rearrange categories
+- **Heart-based favouriting** Tap the heart on any tool card to favourite it
+- **Slider + text input** Every slider has a synced editable text field
+- **Save and bookmark** Save calculation results locally for later reference
+- **Copy and share** Copy results to clipboard or share via any app
+- **3 theme modes** Dark, Light and Ocean toggled from the palette icon
+- **Responsive layout** Adapts to phones, tablets and web
+- **Zero-config persistence** Category order, favourites, folders and saved results all persist across sessions
+
+---
+
+## Dependencies
+
+| Package | Version | Purpose |
+|---------|---------|---------|
+| intl | ^0.20.2 | Number and date formatting |
+| collection | ^1.17.0 | List utilities |
+| http | ^1.2.0 | REST API calls for live rates |
+| shared_preferences | ^2.3.0 | Local key-value persistence |
+| share_plus | ^10.1.4 | Native share sheet integration |
+| path_provider | ^2.1.0 | Platform file paths |
+
+---
+
+## Roadmap
+
+- [x] 89 calculators and converters
+- [x] 3-tab navigation (Home, Professions, My Space)
+- [x] Custom folder creation in My Space
+- [x] iOS-style jiggle reorder on home grid
+- [x] Heart-based favouriting system
+- [x] Dark, Light and Ocean themes
+- [x] Live currency, gold, silver and fuel rates
+- [x] Save, copy and share results
+- [ ] Document Tools PDF merge/split/compress, Image to PDF, Word to PDF, watermarking
+- [ ] Push notifications for rate alerts
+- [ ] History and analytics dashboard
+- [ ] Multi-language support
+
+---
+
+## License
+
+This project is for personal/educational use.
+
+---
+
+> Built with Flutter

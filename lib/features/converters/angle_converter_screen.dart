@@ -27,8 +27,7 @@ class _AngleConverterScreenState extends State<AngleConverterScreen> {
   }
 
   Map<String, double> _convert() {
-    final v = double.tryParse(_ctrl.text);
-    if (v == null) return {};
+    final v = double.tryParse(_ctrl.text) ?? 0;
     final rad = _toRadians(v);
     return {
       'Degree': rad * 180 / pi,
@@ -40,7 +39,6 @@ class _AngleConverterScreenState extends State<AngleConverterScreen> {
 
   Map<String, String> get _exportData {
     final r = _convert();
-    if (r.isEmpty) return {};
     return r.map((k, v) => MapEntry(k, v.toStringAsFixed(6)));
   }
 
@@ -83,17 +81,16 @@ class _AngleConverterScreenState extends State<AngleConverterScreen> {
           onChanged: (_) => setState(() {}),
         ),
         const SizedBox(height: 20),
-        if (results.isNotEmpty)
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(12),
-              child: Column(
-                children: results.entries.map((e) =>
-                  ResultRow(label: e.key, value: e.value.toStringAsFixed(6), isBold: e.key != _from),
-                ).toList(),
-              ),
+        Card(
+          child: Padding(
+            padding: const EdgeInsets.all(12),
+            child: Column(
+              children: results.entries.map((e) =>
+                ResultRow(label: e.key, value: e.value.toStringAsFixed(6), isBold: e.key != _from),
+              ).toList(),
             ),
           ),
+        ),
       ],
     );
   }

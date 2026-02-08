@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
+import '../../core/widgets/slider_with_input.dart';
 
 class CompoundInterestCalculatorScreen extends StatefulWidget {
   final Color categoryColor;
@@ -132,7 +133,7 @@ class _CompoundInterestCalculatorScreenState extends State<CompoundInterestCalcu
             Text(value.toStringAsFixed(label.contains('Principal') ? 0 : 2), style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: widget.categoryColor)),
           ],
         ),
-        Slider(value: value, min: min, max: max, divisions: 100, activeColor: widget.categoryColor, onChanged: onChanged),
+        SliderWithInput(value: value, min: min, max: max, divisions: 100, activeColor: widget.categoryColor, onChanged: onChanged, decimalPlaces: label.contains('Principal') ? 0 : 2),
       ],
     );
   }

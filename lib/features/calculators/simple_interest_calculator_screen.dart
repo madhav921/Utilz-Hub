@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../core/widgets/slider_with_input.dart';
 
 class SimpleInterestCalculatorScreen extends StatefulWidget {
   final Color categoryColor;
@@ -98,7 +99,7 @@ class _SimpleInterestCalculatorScreenState extends State<SimpleInterestCalculato
             Text('${value.toStringAsFixed(suffix == '₹' ? 0 : (suffix == 'years' ? 0 : 2))} $suffix', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: widget.categoryColor)),
           ],
         ),
-        Slider(value: value, min: min, max: max, divisions: 100, activeColor: widget.categoryColor, onChanged: onChanged),
+        SliderWithInput(value: value, min: min, max: max, divisions: 100, activeColor: widget.categoryColor, onChanged: onChanged, decimalPlaces: suffix == '₹' ? 0 : (suffix == 'years' ? 0 : 2)),
       ],
     );
   }

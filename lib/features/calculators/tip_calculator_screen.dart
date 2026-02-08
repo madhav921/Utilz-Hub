@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../core/widgets/slider_with_input.dart';
 
 class TipCalculatorScreen extends StatefulWidget {
   final Color categoryColor;
@@ -75,7 +76,7 @@ class _TipCalculatorScreenState extends State<TipCalculatorScreen> {
                         Text('${_tipPercent.toStringAsFixed(0)}%', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: widget.categoryColor)),
                       ],
                     ),
-                    Slider(
+                    SliderWithInput(
                       value: _tipPercent,
                       min: 0,
                       max: 30,

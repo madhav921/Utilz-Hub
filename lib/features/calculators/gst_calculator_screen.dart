@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../core/widgets/slider_with_input.dart';
 
 /// Enhanced GST Calculator with comprehensive features
 class GSTCalculatorScreen extends StatefulWidget {
@@ -315,13 +316,13 @@ class _GSTCalculatorScreenState extends State<GSTCalculatorScreen>
               ],
             ),
             const SizedBox(height: 12),
-            Slider(
+            SliderWithInput(
               value: _gstRate,
               min: 0,
               max: 30,
               divisions: 60,
-              label: '${_gstRate.toStringAsFixed(1)}%',
               activeColor: widget.categoryColor,
+              decimalPlaces: 1,
               onChanged: (value) {
                 setState(() {
                   _gstRate = value;

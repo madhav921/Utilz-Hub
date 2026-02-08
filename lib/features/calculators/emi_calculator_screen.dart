@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
+import '../../core/widgets/slider_with_input.dart';
 
 /// Enhanced EMI Calculator
 class EMICalculatorScreen extends StatefulWidget {
@@ -154,7 +155,7 @@ class _EMICalculatorScreenState extends State<EMICalculatorScreen> {
                         color: widget.categoryColor)),
               ],
             ),
-            Slider(
+            SliderWithInput(
               value: _principal,
               min: 10000,
               max: 10000000,
@@ -195,12 +196,13 @@ class _EMICalculatorScreenState extends State<EMICalculatorScreen> {
                         color: widget.categoryColor)),
               ],
             ),
-            Slider(
+            SliderWithInput(
               value: _interestRate,
               min: 1,
               max: 30,
               divisions: 290,
               activeColor: widget.categoryColor,
+              decimalPlaces: 2,
               onChanged: (value) {
                 setState(() {
                   _interestRate = value;
@@ -261,7 +263,7 @@ class _EMICalculatorScreenState extends State<EMICalculatorScreen> {
                 ),
               ],
             ),
-            Slider(
+            SliderWithInput(
               value: _tenure.toDouble(),
               min: _tenureMode == TenureMode.years ? 12 : 6,
               max: _tenureMode == TenureMode.years ? 360 : 360,

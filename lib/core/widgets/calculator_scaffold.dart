@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'export_button.dart';
 import 'save_button.dart';
 
@@ -44,6 +45,25 @@ class CalculatorScaffold extends StatelessWidget {
         foregroundColor: accentColor,
         actions: [
           if (hasData) ...[
+            // Copy to clipboard
+            IconButton(
+              icon: const Icon(Icons.copy, size: 20),
+              tooltip: 'Copy to clipboard',
+              onPressed: () {
+                final buf = StringBuffer('$title\n');
+                buf.writeln('─' * 30);
+                for (final e in exportData!.entries) {
+                  buf.writeln('${e.key}: ${e.value}');
+                }
+                Clipboard.setData(ClipboardData(text: buf.toString()));
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Copied to clipboard'),
+                    duration: Duration(seconds: 2),
+                  ),
+                );
+              },
+            ),
             SaveButton(
               toolId: toolId ?? title.toLowerCase().replaceAll(' ', '_'),
               toolName: title,

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import '../../core/models/tool_category.dart';
 import '../../core/services/saved_results_service.dart';
 import '../../core/services/export_service.dart';
+import '../home/tool_router.dart';
 
 /// Screen showing all saved calculation/conversion results.
 ///
@@ -51,6 +53,25 @@ class _SavedResultsScreenState extends State<SavedResultsScreen> {
     if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Result deleted')),
+    );
+  }
+
+  void _editResult(SavedResult result) {
+    // Look up the tool and navigate to its screen
+    final tool = allToolsById[result.toolId];
+    if (tool == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Tool not found')),
+      );
+      return;
+    }
+    final cat = categoryForTool(result.toolId);
+    final color = cat?.color ?? Colors.blueGrey;
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => ToolRouter.getScreen(tool, color),
+      ),
     );
   }
 
@@ -154,6 +175,7 @@ class _SavedResultsScreenState extends State<SavedResultsScreen> {
             itemBuilder: (_, i) => _ResultCard(
               result: _filtered[i],
               onDelete: () => _delete(_filtered[i]),
+              onEdit: () => _editResult(_filtered[i]),
             ),
           ),
         ),
@@ -169,8 +191,13 @@ class _SavedResultsScreenState extends State<SavedResultsScreen> {
 class _ResultCard extends StatelessWidget {
   final SavedResult result;
   final VoidCallback onDelete;
+  final VoidCallback onEdit;
 
-  const _ResultCard({required this.result, required this.onDelete});
+  const _ResultCard({
+    required this.result,
+    required this.onDelete,
+    required this.onEdit,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -224,6 +251,12 @@ class _ResultCard extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
+                    TextButton.icon(
+                      icon: const Icon(Icons.edit_outlined, size: 18),
+                      label: const Text('Edit'),
+                      onPressed: onEdit,
+                    ),
+                    const SizedBox(width: 8),
                     TextButton.icon(
                       icon: const Icon(Icons.share_outlined, size: 18),
                       label: const Text('Share'),

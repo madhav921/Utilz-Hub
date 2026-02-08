@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import '../../app/theme_provider.dart';
 import '../home/home_screen.dart';
 import '../professions/professions_screen.dart';
+import '../my_space/my_space_screen.dart';
 
-/// Shell with a bottom navigation bar containing two tabs:
+/// Shell with a bottom navigation bar containing three tabs:
 ///   0 — Home (category-based tools)
 ///   1 — Professions (profession-based tools)
+///   2 — My Space (user folders & favourites)
 class AppShell extends StatefulWidget {
   final ThemeProvider themeProvider;
 
@@ -26,6 +28,7 @@ class _AppShellState extends State<AppShell> {
     _pages = [
       HomeScreen(themeProvider: widget.themeProvider),
       const ProfessionsScreen(),
+      const MySpaceScreen(),
     ];
   }
 
@@ -51,6 +54,11 @@ class _AppShellState extends State<AppShell> {
             icon: Icon(Icons.work_outline),
             selectedIcon: Icon(Icons.work),
             label: 'Professions',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.person_outline),
+            selectedIcon: Icon(Icons.person),
+            label: 'My Space',
           ),
         ],
       ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../core/models/tool_category.dart';
+import 'coming_soon_screen.dart';
 
 // ── Existing calculator screens ──────────────────────────
 import '../calculators/gst_calculator_screen.dart';
@@ -62,7 +63,11 @@ import '../calculators/salary_breakup_screen.dart';
 import '../calculators/tax_estimator_screen.dart';
 import '../calculators/stamp_duty_screen.dart';
 import '../calculators/penalty_calculator_screen.dart';
-import '../calculators/doc_size_helper_screen.dart';
+
+// ── New tool screens (Real Estate & Vehicle) ─────────
+import '../calculators/vehicle_cost_screen.dart';
+import '../calculators/flat_buying_screen.dart';
+import '../calculators/rent_calculator_screen.dart';
 
 // ── New tool screens (Health) ────────────────────────────
 import '../calculators/bsa_calculator_screen.dart';
@@ -231,8 +236,14 @@ class ToolRouter {
         return StampDutyScreen(categoryColor: color);
       case 'penalty_calculator':
         return PenaltyCalculatorScreen(categoryColor: color);
-      case 'doc_size_helper':
-        return DocSizeHelperScreen(categoryColor: color);
+
+      // ── Real Estate & Vehicle (new) ─────────────
+      case 'vehicle_cost':
+        return VehicleCostScreen(categoryColor: color);
+      case 'flat_buying':
+        return FlatBuyingScreen(categoryColor: color);
+      case 'rent_calculator':
+        return RentCalculatorScreen(categoryColor: color);
 
       // ── Health (new) ────────────────────────────────────
       case 'bsa_calculator':
@@ -279,6 +290,21 @@ class ToolRouter {
         return FileSizeEstimatorScreen(categoryColor: color);
       case 'time_complexity':
         return TimeComplexityScreen(categoryColor: color);
+
+      // ── Document Tools (Coming Soon) ────────────────────
+      case 'pdf_merge':
+      case 'pdf_split':
+      case 'pdf_compress':
+      case 'pdf_to_image':
+      case 'image_to_pdf':
+      case 'word_to_pdf':
+      case 'pdf_to_word':
+      case 'pdf_watermark':
+        return ComingSoonScreen(
+          toolName: tool.name,
+          toolIcon: tool.icon,
+          accentColor: color,
+        );
 
       default:
         return _UnknownToolScreen(tool: tool, color: color);

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../core/widgets/slider_with_input.dart';
 
 class DiscountCalculatorScreen extends StatefulWidget {
   final Color categoryColor;
@@ -118,7 +119,7 @@ class _DiscountCalculatorScreenState extends State<DiscountCalculatorScreen> {
                                   color: widget.categoryColor)),
                         ],
                       ),
-                      Slider(
+                      SliderWithInput(
                         value: _discountPercent,
                         min: 0,
                         max: 100,

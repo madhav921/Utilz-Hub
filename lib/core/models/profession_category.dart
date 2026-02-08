@@ -12,21 +12,57 @@ class ProfessionCategory {
   /// Tool ids that belong to this profession (looked up at runtime).
   final List<String> toolIds;
 
+  /// Optional sub-categories for grouping tools within a profession.
+  final List<ProfessionSubCategory>? subCategories;
+
   const ProfessionCategory({
     required this.id,
     required this.name,
     required this.icon,
     required this.color,
+    this.toolIds = const [],
+    this.subCategories,
+  });
+
+  /// Whether this profession uses sub-category grouping.
+  bool get hasSubCategories =>
+      subCategories != null && subCategories!.isNotEmpty;
+
+  /// All tool ids (flat list — from subCategories or direct toolIds).
+  List<String> get allToolIds {
+    if (hasSubCategories) {
+      return subCategories!.expand((s) => s.toolIds).toList();
+    }
+    return toolIds;
+  }
+
+  /// Resolve ids to [Tool] objects via the master registry.
+  List<Tool> get tools => allToolIds
+      .where((id) => allToolsById.containsKey(id))
+      .map((id) => allToolsById[id]!)
+      .toList();
+}
+
+/// A sub-grouping within a profession (e.g. subject-wise for High School).
+class ProfessionSubCategory {
+  final String name;
+  final IconData icon;
+  final List<String> toolIds;
+
+  const ProfessionSubCategory({
+    required this.name,
+    required this.icon,
     required this.toolIds,
   });
 
-  /// Resolve ids to [Tool] objects via the master registry.
-  List<Tool> get tools =>
-      toolIds.where((id) => allToolsById.containsKey(id)).map((id) => allToolsById[id]!).toList();
+  List<Tool> get tools => toolIds
+      .where((id) => allToolsById.containsKey(id))
+      .map((id) => allToolsById[id]!)
+      .toList();
 }
 
 // ============================================================
-//  11 PROFESSION CATEGORIES
+//  PROFESSION CATEGORIES
 // ============================================================
 
 const List<ProfessionCategory> professionCategories = [
@@ -43,67 +79,75 @@ const List<ProfessionCategory> professionCategories = [
     ],
   ),
 
-  // 2 ─ High-School Students
+  // 2 ─ High-School Students (sub-categories by subject)
   ProfessionCategory(
     id: 'high_school',
     name: 'High-School',
     icon: Icons.menu_book,
     color: Color(0xFF60A5FA),
-    toolIds: [
-      'percentage',
-      'percentage_change',
-      'ratio',
-      'fraction_decimal',
-      'number_base',
-      'scientific_notation',
-      'speed_distance_time',
-      'circle',
-      'triangle',
-      'rectangle',
-      'volume_3d',
-      'length',
-      'weight',
-      'temperature',
-      'area',
-      'volume',
-      'speed',
-      'energy',
-      'power',
-      'pressure',
-      'angle_converter',
-      'slope_calculator',
+    subCategories: [
+      ProfessionSubCategory(
+        name: 'Mathematics',
+        icon: Icons.calculate,
+        toolIds: [
+          'percentage',
+          'percentage_change',
+          'ratio',
+          'fraction_decimal',
+          'number_base',
+          'scientific_notation',
+          'speed_distance_time',
+          'gpa_cgpa',
+          'simple_interest',
+          'compound_interest',
+        ],
+      ),
+      ProfessionSubCategory(
+        name: 'Geometry',
+        icon: Icons.square_foot,
+        toolIds: [
+          'circle',
+          'triangle',
+          'rectangle',
+          'volume_3d',
+          'slope_calculator',
+          'angle_converter',
+        ],
+      ),
+      ProfessionSubCategory(
+        name: 'Physics',
+        icon: Icons.science,
+        toolIds: [
+          'speed',
+          'energy',
+          'power',
+          'pressure',
+          'temperature',
+          'length',
+          'weight',
+          'ohms_law',
+          'efficiency_calculator',
+          'load_calculator',
+        ],
+      ),
+      ProfessionSubCategory(
+        name: 'General',
+        icon: Icons.auto_stories,
+        toolIds: [
+          'area',
+          'volume',
+          'data_storage',
+          'time_unit',
+          'date_difference',
+          'countdown',
+          'bmi',
+          'age',
+        ],
+      ),
     ],
   ),
 
-  // 3 ─ Graduation / College
-  ProfessionCategory(
-    id: 'graduation',
-    name: 'Graduation / College',
-    icon: Icons.school,
-    color: Color(0xFF34D399),
-    toolIds: [
-      'gpa_cgpa',
-      'percentage',
-      'percentage_change',
-      'scientific_notation',
-      'number_base',
-      'simple_interest',
-      'compound_interest',
-      'emi',
-      'date_difference',
-      'work_hours',
-      'countdown',
-      'bmi',
-      'age',
-      'discount',
-      'tip',
-      'bill_splitter',
-      'fuel_cost',
-      'unit_price',
-    ],
-  ),
-
-  // 4 ─ Lawyers
+  // 3 ─ Lawyers
   ProfessionCategory(
     id: 'lawyers',
     name: 'Lawyers',
@@ -116,16 +160,14 @@ const List<ProfessionCategory> professionCategories = [
       'work_hours',
       'gst',
       'tax_estimator',
-      'doc_size_helper',
       'simple_interest',
       'compound_interest',
-      'percentage',
-      'percentage_change',
-      'age',
+      'flat_buying',
+      'rent_calculator',
     ],
   ),
 
-  // 5 ─ Doctors / Medical
+  // 4 ─ Doctors / Medical
   ProfessionCategory(
     id: 'doctors',
     name: 'Doctors / Medical',
@@ -138,14 +180,10 @@ const List<ProfessionCategory> professionCategories = [
       'heart_rate_zones',
       'fluid_intake',
       'age',
-      'weight',
-      'temperature',
-      'unit_price',
-      'percentage',
     ],
   ),
 
-  // 6 ─ Plumbers
+  // 5 ─ Plumbers
   ProfessionCategory(
     id: 'plumbers',
     name: 'Plumbers',
@@ -155,18 +193,13 @@ const List<ProfessionCategory> professionCategories = [
       'pipe_flow',
       'thread_reference',
       'tank_capacity',
-      'length',
-      'volume',
-      'pressure',
       'material_estimator',
-      'wastage_calculator',
-      'unit_price',
       'gst',
       'profit_loss',
     ],
   ),
 
-  // 7 ─ Carpenters
+  // 6 ─ Carpenters
   ProfessionCategory(
     id: 'carpenters',
     name: 'Carpenters',
@@ -175,23 +208,17 @@ const List<ProfessionCategory> professionCategories = [
     toolIds: [
       'wood_volume',
       'material_estimator',
-      'wastage_calculator',
-      'area',
-      'volume',
-      'length',
       'rectangle',
       'triangle',
       'circle',
       'volume_3d',
-      'angle_converter',
       'slope_calculator',
-      'unit_price',
       'gst',
       'profit_loss',
     ],
   ),
 
-  // 8 ─ Engineers (Civil / Mechanical / Electrical)
+  // 7 ─ Engineers (Civil / Mechanical / Electrical)
   ProfessionCategory(
     id: 'engineers',
     name: 'Engineers',
@@ -205,26 +232,15 @@ const List<ProfessionCategory> professionCategories = [
       'pipe_flow',
       'tank_capacity',
       'material_estimator',
-      'wastage_calculator',
       'slope_calculator',
-      'area',
-      'volume',
-      'length',
-      'weight',
-      'pressure',
-      'energy',
-      'power',
-      'speed',
-      'temperature',
       'volume_3d',
       'number_base',
       'scientific_notation',
-      'unit_price',
-      'data_storage',
+      'time_complexity',
     ],
   ),
 
-  // 9 ─ Chartered Accountants
+  // 8 ─ Chartered Accountants
   ProfessionCategory(
     id: 'cas',
     name: 'Chartered Accountants',
@@ -247,42 +263,30 @@ const List<ProfessionCategory> professionCategories = [
       'salary_breakup',
       'stamp_duty',
       'penalty_calculator',
-      'percentage',
-      'percentage_change',
+      'flat_buying',
+      'rent_calculator',
     ],
   ),
 
-  // 10 ─ Business Owners
+  // 9 ─ Real Estate & Vehicle
   ProfessionCategory(
-    id: 'business_owners',
-    name: 'Business Owners',
-    icon: Icons.storefront,
+    id: 'real_estate',
+    name: 'Real Estate & Vehicle',
+    icon: Icons.real_estate_agent,
     color: Color(0xFFFB923C),
     toolIds: [
-      'gst',
-      'profit_loss',
-      'markup_margin',
-      'break_even',
-      'unit_price',
-      'discount',
-      'salary_breakup',
-      'tax_estimator',
+      'vehicle_cost',
+      'flat_buying',
+      'rent_calculator',
       'emi',
-      'loan_compare',
-      'depreciation',
+      'mortgage',
       'stamp_duty',
-      'penalty_calculator',
-      'doc_size_helper',
-      'work_hours',
-      'date_difference',
-      'percentage',
-      'percentage_change',
-      'currency',
-      'fuel_cost',
+      'loan_compare',
+      'gst',
     ],
   ),
 
-  // 11 ─ IT / Software Professionals
+  // 10 ─ IT / Software Professionals
   ProfessionCategory(
     id: 'it_software',
     name: 'IT / Software',
@@ -296,8 +300,6 @@ const List<ProfessionCategory> professionCategories = [
       'number_base',
       'data_storage',
       'scientific_notation',
-      'percentage',
-      'percentage_change',
       'salary_breakup',
       'tax_estimator',
       'gst',

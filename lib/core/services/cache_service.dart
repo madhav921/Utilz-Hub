@@ -66,4 +66,74 @@ class CacheService {
     await init();
     return _prefs!.getStringList('category_order');
   }
+
+  // ── Favourites ──────────────────────────────────────────
+
+  static const _favKey = 'favourite_tool_ids';
+  static const int maxFavourites = 10;
+
+  /// Save favourite tool IDs.
+  static Future<void> saveFavourites(List<String> toolIds) async {
+    await init();
+    _prefs!.setStringList(_favKey, toolIds);
+  }
+
+  /// Load favourite tool IDs. Returns null if never set (use defaults).
+  static Future<List<String>?> loadFavourites() async {
+    await init();
+    return _prefs!.getStringList(_favKey);
+  }
+
+  /// Toggle a tool as favourite. Returns the updated list.
+  static Future<List<String>> toggleFavourite(String toolId) async {
+    final current = await loadFavourites() ?? [];
+    if (current.contains(toolId)) {
+      current.remove(toolId);
+    } else if (current.length < maxFavourites) {
+      current.add(toolId);
+    }
+    await saveFavourites(current);
+    return current;
+  }
+
+  /// Check if a tool is favourited.
+  static Future<bool> isFavourite(String toolId) async {
+    final favs = await loadFavourites();
+    return favs?.contains(toolId) ?? false;
+  }
+
+  // ── Tool Order (per-category) ────────────────────────────
+
+  /// Save custom tool order for a category.
+  static Future<void> saveToolOrder(
+      String categoryId, List<String> toolIds) async {
+    await init();
+    _prefs!.setStringList('tool_order_$categoryId', toolIds);
+  }
+
+  /// Load custom tool order for a category. Returns null if never set.
+  static Future<List<String>?> loadToolOrder(String categoryId) async {
+    await init();
+    return _prefs!.getStringList('tool_order_$categoryId');
+  }
+
+  // ── Custom Folders (My Space) ───────────────────────────
+
+  static const _foldersKey = 'custom_folders';
+
+  /// Save the list of custom folders as JSON.
+  static Future<void> saveCustomFolders(
+      List<Map<String, dynamic>> folders) async {
+    await init();
+    _prefs!.setString(_foldersKey, jsonEncode(folders));
+  }
+
+  /// Load the list of custom folders.
+  static Future<List<Map<String, dynamic>>> loadCustomFolders() async {
+    await init();
+    final raw = _prefs!.getString(_foldersKey);
+    if (raw == null) return [];
+    final list = jsonDecode(raw) as List;
+    return list.cast<Map<String, dynamic>>();
+  }
 }

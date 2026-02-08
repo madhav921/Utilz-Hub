@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'export_button.dart';
+import 'save_button.dart';
 
 /// Reusable scaffold for all calculator/converter screens.
 ///
@@ -8,6 +9,7 @@ import 'export_button.dart';
 /// - Info card at the top
 /// - ScrollView body
 /// - Optional export button in AppBar
+/// - Optional save button in AppBar (bookmark icon)
 class CalculatorScaffold extends StatelessWidget {
   final String title;
   final Color accentColor;
@@ -15,6 +17,10 @@ class CalculatorScaffold extends StatelessWidget {
   final IconData? infoIcon;
   final List<Widget> children;
   final Map<String, String>? exportData;
+
+  /// Required for save functionality — identifies the tool.
+  final String? toolId;
+  final String? categoryName;
 
   const CalculatorScaffold({
     super.key,
@@ -24,22 +30,33 @@ class CalculatorScaffold extends StatelessWidget {
     this.infoIcon,
     required this.children,
     this.exportData,
+    this.toolId,
+    this.categoryName,
   });
 
   @override
   Widget build(BuildContext context) {
+    final hasData = exportData != null && exportData!.isNotEmpty;
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
         backgroundColor: accentColor.withValues(alpha: 0.1),
         foregroundColor: accentColor,
         actions: [
-          if (exportData != null && exportData!.isNotEmpty)
+          if (hasData) ...[
+            SaveButton(
+              toolId: toolId ?? title.toLowerCase().replaceAll(' ', '_'),
+              toolName: title,
+              categoryName: categoryName ?? '',
+              data: exportData!,
+              accentColor: accentColor,
+            ),
             ExportButton(
               title: title,
               data: exportData!,
               accentColor: accentColor,
             ),
+          ],
         ],
       ),
       body: SingleChildScrollView(

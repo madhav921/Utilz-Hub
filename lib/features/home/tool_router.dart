@@ -36,7 +36,9 @@ import '../calculators/countdown_screen.dart';
 
 // ── Live rate screens ────────────────────────────────────
 import '../live/currency_converter_screen.dart';
-import '../live/gold_silver_screen.dart';
+import '../live/gold_price_screen.dart';
+import '../live/silver_price_screen.dart';
+import '../live/fuel_price_screen.dart';
 
 // ── Unit converter ───────────────────────────────────────
 import '../converters/converter_screen.dart';
@@ -143,8 +145,12 @@ class ToolRouter {
       // ── Live Rates ──────────────────────────────────────
       case 'currency':
         return CurrencyConverterScreen(categoryColor: color);
-      case 'gold_silver':
-        return GoldSilverScreen(categoryColor: color);
+      case 'gold_price':
+        return GoldPriceScreen(categoryColor: color);
+      case 'silver_price':
+        return SilverPriceScreen(categoryColor: color);
+      case 'fuel_price_live':
+        return FuelPriceScreen(categoryColor: color);
 
       default:
         return _UnknownToolScreen(tool: tool, color: color);

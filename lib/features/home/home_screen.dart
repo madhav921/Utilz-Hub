@@ -3,6 +3,7 @@ import '../../core/models/tool_category.dart';
 import '../../core/services/cache_service.dart';
 import '../../core/widgets/live_badge.dart';
 import '../../app/theme_provider.dart';
+import '../saved/saved_results_screen.dart';
 import 'category_screen.dart';
 
 /// Home screen showing tool categories in a reorderable grid.
@@ -73,6 +74,14 @@ class _HomeScreenState extends State<HomeScreen>
         title: const Text('All-in-One Toolbox'),
         centerTitle: true,
         actions: [
+          IconButton(
+            icon: const Icon(Icons.bookmark_outline),
+            tooltip: 'Saved results',
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const SavedResultsScreen()),
+            ),
+          ),
           IconButton(
             icon: const Icon(Icons.search),
             tooltip: 'Search tools',

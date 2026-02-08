@@ -2,22 +2,26 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'cache_service.dart';
 
-/// Service for fetching live exchange rates and metal prices.
+/// Service for fetching live exchange rates, metal prices, and fuel prices.
 ///
 /// Caching strategy (per user spec):
 /// - Currency: every 6–12 hours
 /// - Gold/Silver: every 2–4 hours
+/// - Fuel prices: every 12 hours
 ///
+/// Each data source fetches independently in its own batch.
 /// If API fails → returns cached data with [isStale] = true.
 /// NEVER blocks the user.
 class LiveRatesService {
   // ── Cache keys ──────────────────────────────────────────
   static const _currencyKey = 'currency_rates';
   static const _metalsKey = 'metal_prices';
+  static const _fuelKey = 'fuel_prices';
 
   // ── Cache durations (hours) ─────────────────────────────
   static const _currencyMaxAge = 8; // 6–12 hrs
   static const _metalsMaxAge = 3; // 2–4 hrs
+  static const _fuelMaxAge = 12; // 12 hrs
 
   // ── Currency Rates ──────────────────────────────────────
 
@@ -178,6 +182,239 @@ class LiveRatesService {
   }
 
   // ── Fallback Data ───────────────────────────────────────
+
+  /// Fetch live fuel prices for a given country code.
+  ///
+  /// Uses free fuel price API; falls back to curated data per region.
+  static Future<LiveRateResult> getFuelPrices({
+    String countryCode = 'IN',
+  }) async {
+    final cacheKey = '${_fuelKey}_$countryCode';
+    final cached = await CacheService.load(cacheKey);
+    final stale = await CacheService.isStale(
+      cacheKey,
+      maxAgeHours: _fuelMaxAge,
+    );
+
+    if (!stale && cached != null) {
+      return LiveRateResult(
+        data: cached,
+        isStale: false,
+        lastUpdated: await CacheService.lastUpdated(cacheKey),
+      );
+    }
+
+    // Try fetching from fuel API
+    try {
+      final url = Uri.parse(
+        'https://raw.githubusercontent.com/nicedayzhu/fuel-price-api/main/data/$countryCode.json',
+      );
+      final response = await http.get(url).timeout(
+        const Duration(seconds: 10),
+      );
+
+      if (response.statusCode == 200) {
+        final json = jsonDecode(response.body) as Map<String, dynamic>;
+        final data = <String, dynamic>{
+          'country': countryCode,
+          ...json,
+        };
+        await CacheService.save(cacheKey, data);
+        return LiveRateResult(
+          data: data,
+          isStale: false,
+          lastUpdated: 'Just now',
+        );
+      }
+    } catch (_) {
+      // Fall through
+    }
+
+    if (cached != null) {
+      return LiveRateResult(
+        data: cached,
+        isStale: true,
+        lastUpdated: await CacheService.lastUpdated(cacheKey),
+      );
+    }
+
+    // Return fallback data for the requested country
+    return LiveRateResult(
+      data: _fallbackFuelPrices[countryCode] ??
+          _fallbackFuelPrices['IN']!,
+      isStale: true,
+      lastUpdated: 'Fallback data',
+    );
+  }
+
+  /// Convert metal price from USD to local currency.
+  static double metalPriceInCurrency(
+    double priceUsd,
+    String currencyCode,
+    Map<String, dynamic> currencyRates,
+  ) {
+    final rates = currencyRates['rates'] as Map<String, dynamic>? ?? {};
+    final rate = (rates[currencyCode] as num?)?.toDouble() ?? 1.0;
+    return priceUsd * rate;
+  }
+
+  /// Supported countries for fuel prices.
+  static const Map<String, String> fuelCountries = {
+    'IN': 'India',
+    'US': 'United States',
+    'GB': 'United Kingdom',
+    'DE': 'Germany',
+    'AU': 'Australia',
+    'CA': 'Canada',
+    'AE': 'UAE',
+    'SA': 'Saudi Arabia',
+    'JP': 'Japan',
+    'BR': 'Brazil',
+    'ZA': 'South Africa',
+    'SG': 'Singapore',
+    'MY': 'Malaysia',
+  };
+
+  /// Fuel type labels for display.
+  static const Map<String, String> fuelTypeNames = {
+    'petrol': 'Petrol / Gasoline',
+    'diesel': 'Diesel',
+    'cng': 'CNG',
+    'lpg': 'LPG',
+    'premium': 'Premium',
+  };
+
+  // ── Fallback fuel data ──────────────────────────────────
+
+  static final Map<String, Map<String, dynamic>> _fallbackFuelPrices = {
+    'IN': {
+      'country': 'IN',
+      'currency': 'INR',
+      'unit': 'litre',
+      'prices': {
+        'petrol': 104.21,
+        'diesel': 90.76,
+        'cng': 76.61,
+      },
+    },
+    'US': {
+      'country': 'US',
+      'currency': 'USD',
+      'unit': 'gallon',
+      'prices': {
+        'petrol': 3.45,
+        'diesel': 3.85,
+        'premium': 4.15,
+      },
+    },
+    'GB': {
+      'country': 'GB',
+      'currency': 'GBP',
+      'unit': 'litre',
+      'prices': {
+        'petrol': 1.45,
+        'diesel': 1.52,
+        'premium': 1.62,
+      },
+    },
+    'DE': {
+      'country': 'DE',
+      'currency': 'EUR',
+      'unit': 'litre',
+      'prices': {
+        'petrol': 1.72,
+        'diesel': 1.65,
+        'premium': 1.89,
+      },
+    },
+    'AE': {
+      'country': 'AE',
+      'currency': 'AED',
+      'unit': 'litre',
+      'prices': {
+        'petrol': 2.66,
+        'diesel': 2.83,
+        'premium': 2.86,
+      },
+    },
+    'AU': {
+      'country': 'AU',
+      'currency': 'AUD',
+      'unit': 'litre',
+      'prices': {
+        'petrol': 1.85,
+        'diesel': 1.92,
+        'premium': 2.10,
+      },
+    },
+    'CA': {
+      'country': 'CA',
+      'currency': 'CAD',
+      'unit': 'litre',
+      'prices': {
+        'petrol': 1.65,
+        'diesel': 1.78,
+        'premium': 1.95,
+      },
+    },
+    'SA': {
+      'country': 'SA',
+      'currency': 'SAR',
+      'unit': 'litre',
+      'prices': {
+        'petrol': 2.18,
+        'diesel': 1.10,
+        'premium': 2.33,
+      },
+    },
+    'JP': {
+      'country': 'JP',
+      'currency': 'JPY',
+      'unit': 'litre',
+      'prices': {
+        'petrol': 175.0,
+        'diesel': 155.0,
+        'premium': 186.0,
+      },
+    },
+    'BR': {
+      'country': 'BR',
+      'currency': 'BRL',
+      'unit': 'litre',
+      'prices': {
+        'petrol': 5.87,
+        'diesel': 6.15,
+      },
+    },
+    'ZA': {
+      'country': 'ZA',
+      'currency': 'ZAR',
+      'unit': 'litre',
+      'prices': {
+        'petrol': 23.50,
+        'diesel': 22.10,
+      },
+    },
+    'SG': {
+      'country': 'SG',
+      'currency': 'SGD',
+      'unit': 'litre',
+      'prices': {
+        'petrol': 2.87,
+        'diesel': 2.54,
+        'premium': 3.19,
+      },
+    },
+    'MY': {
+      'country': 'MY',
+      'currency': 'MYR',
+      'unit': 'litre',
+      'prices': {
+        'petrol': 2.05,
+        'diesel': 2.15,
+      },
+    },
+  };
 
   static final Map<String, dynamic> _fallbackCurrencyRates = {
     'base': 'USD',
